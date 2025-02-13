@@ -168,11 +168,11 @@ fn _p2(_input: &str) -> usize {
 }
 
 pub fn p1() -> usize {
-    _p1(include_str!("d6.txt"))
+    _p1(include_str!("../Inputs/d6.txt"))
 }
 
 pub fn p2() -> usize {
-    _p2(include_str!("d6.txt"))
+    _p2(include_str!("../Inputs/d6.txt"))
 }
 
 #[cfg(test)]
@@ -181,12 +181,12 @@ mod tests {
 
     #[test]
     fn test_p1() {
-        assert_eq!(41, _p1(include_str!("d6_test.txt")));
+        assert_eq!(41, _p1(include_str!("../Inputs/d6_test.txt")));
     }
 
     #[test]
     fn test_p2() {
-        assert_eq!(6, _p2(include_str!("d6_test.txt")));
+        assert_eq!(6, _p2(include_str!("../Inputs/d6_test.txt")));
     }
 
     #[test]

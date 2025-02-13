@@ -68,11 +68,11 @@ fn _p2(_input: &str) -> i32 {
 }
 
 pub fn p1() -> i32 {
-    _p1(include_str!("d3.txt"))
+    _p1(include_str!("../Inputs/d3.txt"))
 }
 
 pub fn p2() -> i32 {
-    _p2(include_str!("d3.txt"))
+    _p2(include_str!("../Inputs/d3.txt"))
 }
 
 #[cfg(test)]
@@ -81,12 +81,12 @@ mod tests {
 
     #[test]
     fn test_p1() {
-        assert_eq!(161, _p1(include_str!("d3_test.txt")));
+        assert_eq!(161, _p1(include_str!("../Inputs/d3_test.txt")));
     }
 
     #[test]
     fn test_p2() {
-        assert_eq!(48, _p2(include_str!("d3_test.txt")));
+        assert_eq!(48, _p2(include_str!("../Inputs/d3_test.txt")));
     }
 
     #[test]

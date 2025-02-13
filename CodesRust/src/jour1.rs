@@ -59,11 +59,11 @@ fn _p2(_input: &str) -> u64 {
 }
 
 pub fn p1() -> u64 {
-    _p1(include_str!("d1.txt"))
+    _p1(include_str!("../Inputs/d1.txt"))
 }
 
 pub fn p2() -> u64 {
-    _p2(include_str!("d1.txt"))
+    _p2(include_str!("../Inputs/d1.txt"))
 }
 
 #[cfg(test)]
@@ -72,12 +72,12 @@ mod tests {
 
     #[test]
     fn test_p1() {
-        assert_eq!(11, _p1(include_str!("d1_test.txt")));
+        assert_eq!(11, _p1(include_str!("../Inputs/d1_test.txt")));
     }
 
     #[test]
     fn test_p2() {
-        assert_eq!(31, _p2(include_str!("d1_test.txt")));
+        assert_eq!(31, _p2(include_str!("../Inputs/d1_test.txt")));
     }
 
     #[test]

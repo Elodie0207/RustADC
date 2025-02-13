@@ -1,6 +1,6 @@
 use std::collections::{HashSet, HashMap, VecDeque};
 fn _p1(_input: &str) -> usize {
-    // Parsear el mapa en una matriz de enteros
+
     let grid: Vec<Vec<u32>> = _input
         .lines()
         .map(|line| line.chars().map(|c| c.to_digit(10).unwrap()).collect())
@@ -136,11 +136,11 @@ fn _p2(_input: &str) -> usize {
 
 
 pub fn p1() -> usize {
-    _p1(include_str!("d10.txt"))
+    _p1(include_str!("../Inputs/d10.txt"))
 }
 
 pub fn p2() -> usize {
-    _p2(include_str!("d10.txt"))
+    _p2(include_str!("../Inputs/d10.txt"))
 }
 
 #[cfg(test)]
@@ -149,12 +149,12 @@ mod tests {
 
     #[test]
     fn test_p1() {
-        assert_eq!(36, _p1(include_str!("d10_test.txt")));
+        assert_eq!(36, _p1(include_str!("../Inputs/d10_test.txt")));
     }
 
     #[test]
     fn test_p2() {
-        assert_eq!(81, _p2(include_str!("d10_test.txt")));
+        assert_eq!(81, _p2(include_str!("../Inputs/d10_test.txt")));
     }
 
     #[test]
