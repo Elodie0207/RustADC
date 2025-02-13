@@ -11,5 +11,6 @@ mod jour9;
 mod jour10;
 
 fn main() {
-    println!("Hello, world!");
+    println!("Résultat de p1 : {}", jour10::p1());
+    println!("Résultat de p2 : {}", jour10::p2());
 }

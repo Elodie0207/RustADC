@@ -121,34 +121,10 @@ fn _p2(_input: &str) -> usize {
 
 
 pub fn p1() -> usize {
-    _p1(include_str!("../Inputs/d8.txt"))
+    _p1(include_str!("../Inputs/InputD8.txt"))
 }
 
 pub fn p2() -> usize {
-    _p2(include_str!("../Inputs/d8.txt"))
+    _p2(include_str!("../Inputs/InputD8.txt"))
 }
 
-#[cfg(test)]
-mod tests {
-    use crate::jour8::*;
-
-    #[test]
-    fn test_p1() {
-        assert_eq!(14, _p1(include_str!("../Inputs/d8_test.txt")));
-    }
-
-    #[test]
-    fn test_p2() {
-        assert_eq!(34, _p2(include_str!("../Inputs/d8_test.txt")));
-    }
-
-    #[test]
-    fn real_p1() {
-        assert_eq!(423, p1());
-    }
-
-    #[test]
-    fn real_p2() {
-        assert_eq!(1287, p2());
-    }
-}

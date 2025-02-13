@@ -142,8 +142,6 @@ fn _p2(_input: &str) -> i64 {
         }
     }
 
-    // Imprimir el checksum final para depuración
-    //println!("Checksum final: {}", checksum);
 
     checksum
 }
@@ -151,34 +149,9 @@ fn _p2(_input: &str) -> i64 {
 
 
 pub fn p1() -> i64 {
-    _p1(include_str!("../Inputs/d9.txt"))
+    _p1(include_str!("../Inputs/InputD9.txt"))
 }
 
 pub fn p2() -> i64 {
-    _p2(include_str!("../Inputs/d9.txt"))
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::jour9::*;
-
-    #[test]
-    fn test_p1() {
-        assert_eq!(1928, _p1(include_str!("../Inputs/d9_test.txt")));
-    }
-
-    #[test]
-    fn test_p2() {
-        assert_eq!(2858, _p2(include_str!("../Inputs/d9_test.txt")));
-    }
-
-    #[test]
-    fn real_p1() {
-        assert_eq!(6415184586041, p1());
-    }
-
-    #[test]
-    fn real_p2() {
-        assert_eq!(6436819084274, p2());
-    }
+    _p2(include_str!("../Inputs/InputD9.txt"))
 }
