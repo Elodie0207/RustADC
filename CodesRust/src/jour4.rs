@@ -102,7 +102,7 @@ pub fn p2() -> usize {
 
 #[cfg(test)]
 mod tests {
-    use crate::d4::*;
+    use crate::jour4::*;
 
     #[test]
     fn test_p1() {

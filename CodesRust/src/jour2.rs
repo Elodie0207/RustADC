@@ -130,7 +130,7 @@ fn _p2(_input: &str) -> u64 {
                 //println!("Línea {:?} es 'safe' al eliminar un nivel", report);
                 safe_count += 1;
             } else {
-               // println!("Línea {:?} no es 'safe'", report);
+                // println!("Línea {:?} no es 'safe'", report);
             }
         }
     }
@@ -150,7 +150,7 @@ pub fn p2() -> u64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::d2::*;
+    use crate::jour2::*;
 
     #[test]
     fn test_p1() {

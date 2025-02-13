@@ -77,7 +77,7 @@ pub fn p2() -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::d3::*;
+    use crate::jour3::*;
 
     #[test]
     fn test_p1() {

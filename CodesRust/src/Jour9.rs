@@ -160,7 +160,7 @@ pub fn p2() -> i64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::d9::*;
+    use crate::jour9::*;
 
     #[test]
     fn test_p1() {
