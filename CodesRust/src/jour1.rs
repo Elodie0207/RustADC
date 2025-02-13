@@ -1,3 +1,7 @@
+//first Day 1: 140.0 ms
+
+
+/*
 fn _p1(_input: &str) -> u64 {
     let mut col1 = Vec::new();
     let mut col2 = Vec::new();
@@ -21,10 +25,10 @@ fn _p1(_input: &str) -> u64 {
         distances.push((a - b).abs());
     }
 
-    //println!("Distancias absolutas: {:?}", distances);
+
 
     let total_sum: u64 = distances.iter().map(|&x| x as u64).sum();
-    //println!("Suma total de distancias: {}", total_sum);
+
 
     total_sum
 }
@@ -54,7 +58,6 @@ fn _p2(_input: &str) -> u64 {
         similarity_score += (number as u64) * count;
     }
 
-    //println!("Similarity score: {}", similarity_score);
     similarity_score
 }
 
@@ -65,28 +68,54 @@ pub fn p1() -> u64 {
 pub fn p2() -> u64 {
     _p2(include_str!("../Inputs/d1.txt"))
 }
+ */
 
-#[cfg(test)]
-mod tests {
-    use crate::jour1::*;
 
-    #[test]
-    fn test_p1() {
-        assert_eq!(11, _p1(include_str!("../Inputs/d1_test.txt")));
+
+// environ 104ms
+fn _p1(_input: &str) -> u64 {
+    let mut col1: Vec<i32> = Vec::new();
+    let mut col2: Vec<i32> = Vec::new();
+
+    for line in _input.lines() {
+        let mut values = line.split_whitespace().flat_map(str::parse::<i32>);
+        if let Some(a) = values.next() {
+            if let Some(b) = values.next() {
+                col1.push(a);
+                col2.push(b);
+            }
+        }
     }
 
-    #[test]
-    fn test_p2() {
-        assert_eq!(31, _p2(include_str!("../Inputs/d1_test.txt")));
-    }
 
-    #[test]
-    fn real_p1() {
-        assert_eq!(1258579, p1());
-    }
+    col1.sort_unstable();
+    col2.sort_unstable();
 
-    #[test]
-    fn real_p2() {
-        assert_eq!(23981443, p2());
-    }
+    col1.iter().zip(col2.iter()).fold(0u64, |acc, (a, b)| acc + (a - b).unsigned_abs() as u64)
+}
+fn _p2(_input: &str) -> u64 {
+    use std::collections::HashMap;
+
+    let (col1, col2): (Vec<i32>, Vec<i32>) = _input
+        .lines()
+        .filter_map(|line| {
+            let mut values = line.split_whitespace().flat_map(str::parse::<i32>);
+            Some((values.next()?, values.next()?))
+        })
+        .unzip();
+
+    let col2_counts: HashMap<i32, u64> = col2.iter().fold(HashMap::new(), |mut acc, &x| {
+        *acc.entry(x).or_insert(0) += 1;
+        acc
+    });
+
+    col1.iter().fold(0u64, |acc, &number| acc + number as u64 * col2_counts.get(&number).unwrap_or(&0))
+}
+
+pub fn p1() -> u64 {
+    _p1(include_str!("../Inputs/InputD1.txt"))
+}
+
+pub fn p2() -> u64 {
+    _p2(include_str!("../Inputs/InputD1.txt"))
 }

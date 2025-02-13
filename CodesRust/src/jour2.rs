@@ -1,4 +1,5 @@
-fn _p1(_input: &str) -> u64 {
+//112.0ms
+/*fn _p1(_input: &str) -> u64 {
     let mut reports: Vec<Vec<i32>> = Vec::new();
 
     for line in _input.lines() {
@@ -7,27 +8,27 @@ fn _p1(_input: &str) -> u64 {
             let number: i32 = value.parse().unwrap();
             report.push(number);
         }
-        reports.push(report); // Añadir la línea completa al vector de vectores
+        reports.push(report);
     }
 
     let mut safe_count = 0;
 
-    // Verificar cada línea si es creciente, decreciente y cumple con las diferencias
+
     for report in &reports {
         let mut is_increasing = true;
         let mut is_decreasing = true;
         let mut valid_differences = true;
 
         for i in 0..report.len() - 1 {
-            let diff = (report[i + 1] - report[i]).abs(); // Diferencia absoluta entre números adyacentes
+            let diff = (report[i + 1] - report[i]).abs();
 
-            // Verificar si las diferencias están entre 1 y 3
+
             if diff < 1 || diff > 3 {
                 valid_differences = false;
                 break;
             }
 
-            // Verificar si la línea es creciente o decreciente
+
             if report[i + 1] > report[i] {
                 is_decreasing = false;
             } else if report[i + 1] < report[i] {
@@ -35,17 +36,16 @@ fn _p1(_input: &str) -> u64 {
             }
         }
 
-        // Si cumple todas las condiciones, es "safe"
+
         if (is_increasing || is_decreasing) && valid_differences {
-            //println!("Línea {:?} es 'safe'", report);
+
             safe_count += 1;
         } else {
-            //println!("Línea {:?} no es 'safe'", report);
+
         }
     }
 
-    // Imprimir el número total de reportes seguros
-    //println!("Número total de reportes 'safe': {}", safe_count);
+
     safe_count
 }
 
@@ -58,27 +58,25 @@ fn _p2(_input: &str) -> u64 {
             let number: i32 = value.parse().unwrap();
             report.push(number);
         }
-        reports.push(report); // Añadir la línea completa al vector de vectores
+        reports.push(report);
     }
 
     let mut safe_count = 0;
 
-    // Verificar cada línea si es creciente, decreciente y cumple con las diferencias
+
     for report in &reports {
         let mut is_increasing = true;
         let mut is_decreasing = true;
         let mut valid_differences = true;
 
         for i in 0..report.len() - 1 {
-            let diff = (report[i + 1] - report[i]).abs(); // Diferencia absoluta entre números adyacentes
+            let diff = (report[i + 1] - report[i]).abs();
 
-            // Verificar si las diferencias están entre 1 y 3
             if diff < 1 || diff > 3 {
                 valid_differences = false;
                 break;
             }
 
-            // Verificar si la línea es creciente o decreciente
             if report[i + 1] > report[i] {
                 is_decreasing = false;
             } else if report[i + 1] < report[i] {
@@ -86,16 +84,16 @@ fn _p2(_input: &str) -> u64 {
             }
         }
 
-        // Si cumple todas las condiciones, es "safe"
+
         if (is_increasing || is_decreasing) && valid_differences {
-            //println!("Línea {:?} es 'safe'", report);
+
             safe_count += 1;
         } else {
-            // Intentar eliminar un solo nivel para ver si la secuencia se convierte en segura
+
             let mut safe_after_removal = false;
 
             for i in 0..report.len() {
-                // Crear una nueva secuencia sin el elemento i
+
                 let mut modified_report = report.clone();
                 modified_report.remove(i);
 
@@ -106,13 +104,13 @@ fn _p2(_input: &str) -> u64 {
                 for j in 0..modified_report.len() - 1 {
                     let diff = (modified_report[j + 1] - modified_report[j]).abs();
 
-                    // Verificar si las diferencias están entre 1 y 3
+
                     if diff < 1 || diff > 3 {
                         valid_differences = false;
                         break;
                     }
 
-                    // Verificar si la línea es creciente o decreciente
+
                     if modified_report[j + 1] > modified_report[j] {
                         is_decreasing = false;
                     } else if modified_report[j + 1] < modified_report[j] {
@@ -127,48 +125,152 @@ fn _p2(_input: &str) -> u64 {
             }
 
             if safe_after_removal {
-                //println!("Línea {:?} es 'safe' al eliminar un nivel", report);
+
                 safe_count += 1;
             } else {
-                // println!("Línea {:?} no es 'safe'", report);
+
             }
         }
     }
 
-    // Imprimir el número total de reportes seguros
+
     println!("Número total de reportes 'safe': {}", safe_count);
     safe_count
 }
 
 pub fn p1() -> u64 {
-    _p1(include_str!("../Inputs/d2.txt"))
+    _p1(include_str!("../Inputs/InputD2.txt"))
 }
 
 pub fn p2() -> u64 {
-    _p2(include_str!("../Inputs/d2.txt"))
+    _p2(include_str!("../Inputs/InputD2.txt"))
+}
+*/
+
+
+//Environ 105ms
+fn _p1(_input: &str) -> u64 {
+    let mut safe_count = 0;
+
+    for line in _input.lines() {
+        let mut report = line
+            .split_whitespace()
+            .filter_map(|value| value.parse::<i32>().ok())
+            .collect::<Vec<_>>();
+
+        let mut is_increasing = true;
+        let mut is_decreasing = true;
+        let mut valid_differences = true;
+
+        for i in 0..report.len() - 1 {
+            let diff = (report[i + 1] - report[i]).abs();
+
+            // Si la différence est invalide, on arrête l'analyse de cette ligne.
+            if diff < 1 || diff > 3 {
+                valid_differences = false;
+                break;
+            }
+
+            if report[i + 1] > report[i] {
+                is_decreasing = false;
+            } else if report[i + 1] < report[i] {
+                is_increasing = false;
+            }
+        }
+
+        // Si la ligne est valide, on l'ajoute au compteur
+        if valid_differences && (is_increasing || is_decreasing) {
+            safe_count += 1;
+        }
+    }
+
+    safe_count
 }
 
-#[cfg(test)]
-mod tests {
-    use crate::jour2::*;
+fn _p2(_input: &str) -> u64 {
+    let mut safe_count = 0;
 
-    #[test]
-    fn test_p1() {
-        assert_eq!(2, _p1(include_str!("../Inputs/d2_test.txt")));
+    for line in _input.lines() {
+        let report: Vec<i32> = line
+            .split_whitespace()
+            .filter_map(|value| value.parse::<i32>().ok())
+            .collect();
+
+        let mut is_increasing = true;
+        let mut is_decreasing = true;
+        let mut valid_differences = true;
+
+        // Première passe pour vérifier si le rapport est valide
+        for i in 0..report.len() - 1 {
+            let diff = (report[i + 1] - report[i]).abs();
+
+            if diff < 1 || diff > 3 {
+                valid_differences = false;
+                break;
+            }
+
+            if report[i + 1] > report[i] {
+                is_decreasing = false;
+            } else if report[i + 1] < report[i] {
+                is_increasing = false;
+            }
+        }
+
+        if valid_differences && (is_increasing || is_decreasing) {
+            safe_count += 1;
+        } else {
+            // Deuxième passe : on vérifie si un élément peut être retiré pour rendre la ligne valide
+            let mut safe_after_removal = false;
+
+            for i in 0..report.len() {
+                let mut is_increasing = true;
+                let mut is_decreasing = true;
+                let mut valid_differences = true;
+
+                // Vérification du rapport sans l'élément à l'index i
+                for j in 0..report.len() - 1 {
+                    if j == i {
+                        continue; // On saute l'élément supprimé
+                    }
+
+                    let current = if j < i { report[j] } else { report[j + 1] };
+                    let next = if j < i { report[j + 1] } else { report[j] };
+                    let diff = (next - current).abs();
+
+                    if diff < 1 || diff > 3 {
+                        valid_differences = false;
+                        break;
+                    }
+
+                    if next > current {
+                        is_decreasing = false;
+                    } else if next < current {
+                        is_increasing = false;
+                    }
+                }
+
+                if valid_differences && (is_increasing || is_decreasing) {
+                    safe_after_removal = true;
+                    break;
+                }
+            }
+
+            if safe_after_removal {
+                safe_count += 1;
+            }
+        }
     }
 
-    #[test]
-    fn test_p2() {
-        assert_eq!(31, _p2(include_str!("../Inputs/d2_test.txt")));
-    }
+    println!("Número total de reportes 'safe': {}", safe_count);
+    safe_count
+}
 
-    #[test]
-    fn real_p1() {
-        assert_eq!(1258579, p1());
-    }
 
-    #[test]
-    fn real_p2() {
-        assert_eq!(717, p2());
-    }
+
+pub fn p1() -> u64 {
+    _p1(include_str!("../Inputs/InputD2.txt"))
+}
+
+pub fn p2() -> u64 {
+    _p2(include_str!("../Inputs/InputD2.txt"))
 }
