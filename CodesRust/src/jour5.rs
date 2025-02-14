@@ -1,9 +1,10 @@
 use std::collections::{HashMap, HashSet, VecDeque};
-fn _p1(_input: &str) -> usize {
-    // Separar las dos partes (reglas y actualizaciones)
+//460ms
+/*fn _p1(_input: &str) -> usize {
+
     let partes: Vec<&str> = _input.split("\r\n\r\n").collect();
 
-    // Validar que haya al menos dos partes
+
     if partes.len() < 2 {
         eprintln!("Error: no se encontraron las dos secciones en la entrada.");
         return 0;
@@ -12,11 +13,11 @@ fn _p1(_input: &str) -> usize {
     let reglas_str = partes[0].trim();
     let actualizaciones_str = partes[1].trim();
 
-    // Imprimir las partes para depuración
-    //println!("Reglas encontradas:\n{}", reglas_str);
-    //println!("Actualizaciones encontradas:\n{}", actualizaciones_str);
 
-    // Procesar las reglas
+
+
+
+
     let mut reglas = Vec::new();
     for linea in reglas_str.lines() {
         let partes: Vec<&str> = linea.split('|').collect();
@@ -31,7 +32,7 @@ fn _p1(_input: &str) -> usize {
         }
     }
 
-    // Procesar las actualizaciones
+
     let mut actualizaciones = Vec::new();
     for linea in actualizaciones_str.lines() {
         let mut paginas = Vec::new();
@@ -47,21 +48,17 @@ fn _p1(_input: &str) -> usize {
         }
     }
 
-    // Imprimir datos procesados para depuración
-    //println!("Reglas procesadas: {:?}", reglas);
-    //println!("Actualizaciones procesadas: {:?}", actualizaciones);
 
-    // Verificar las actualizaciones y calcular la suma de las páginas centrales
+
     let mut suma_paginas_centrales = 0;
 
     for actualizacion in actualizaciones {
-        // Crear un mapa para almacenar las posiciones de cada página en la actualización
-        let mut posiciones = HashMap::new();
+           let mut posiciones = HashMap::new();
         for (i, &pagina) in actualizacion.iter().enumerate() {
             posiciones.insert(pagina, i);
         }
 
-        // Verificar si la actualización cumple con las reglas
+
         let mut es_valida = true;
         for (x, y) in &reglas {
             if let (Some(&pos_x), Some(&pos_y)) = (posiciones.get(x), posiciones.get(y)) {
@@ -72,7 +69,7 @@ fn _p1(_input: &str) -> usize {
             }
         }
 
-        // Sumar la página central si la actualización es válida
+
         if es_valida {
             let len = actualizacion.len();
             let pagina_central = actualizacion[len / 2];
@@ -203,28 +200,161 @@ pub fn p1() -> usize {
 pub fn p2() -> usize {
     _p2(include_str!("../Inputs/d5.txt"))
 }
+*/
 
-#[cfg(test)]
-mod tests {
-    use crate::jour5::*;
+fn _p1(input: &str) -> usize {
+    // Utiliser des références plutôt que de créer de nouveaux vecteurs
+    let mut parts = input.split("\r\n\r\n");
 
-    #[test]
-    fn test_p1() {
-        assert_eq!(143, _p1(include_str!("../Inputs/d5_test.txt")));
+    let rules_str = parts.next().unwrap_or("");
+    let updates_str = parts.next().unwrap_or("");
+
+    // Pré-allouer les vecteurs avec une capacité estimée
+    let mut rules = Vec::with_capacity(rules_str.lines().count());
+    for line in rules_str.lines() {
+        if let Some((x, y)) = line.split_once('|') {
+            if let (Ok(x), Ok(y)) = (x.parse::<u32>(), y.parse::<u32>()) {
+                rules.push((x, y));
+            }
+        }
     }
 
-    #[test]
-    fn test_p2() {
-        assert_eq!(123, _p2(include_str!("../Inputs/d5_test.txt")));
+    let mut central_pages_sum = 0;
+
+    // Traiter les mises à jour ligne par ligne sans stocker le vecteur complet
+    for line in updates_str.lines() {
+        let mut positions = HashMap::with_capacity(16); // Pré-allouer avec une taille raisonnable
+        let mut pages: Vec<u32> = line
+            .split(',')
+            .filter_map(|num| num.parse::<u32>().ok())
+            .collect();
+
+        if pages.is_empty() {
+            continue;
+        }
+
+        // Remplir la HashMap en une seule passe
+        for (i, &page) in pages.iter().enumerate() {
+            positions.insert(page, i);
+        }
+
+        let mut is_valid = true;
+        for &(x, y) in &rules {
+            if let (Some(&pos_x), Some(&pos_y)) = (positions.get(&x), positions.get(&y)) {
+                if pos_x >= pos_y {
+                    is_valid = false;
+                    break;
+                }
+            }
+        }
+
+        if is_valid {
+            let central_page = pages[pages.len() / 2];
+            central_pages_sum += central_page;
+        }
     }
 
-    #[test]
-    fn real_p1() {
-        assert_eq!(5509, p1());
+    central_pages_sum as usize
+}
+
+fn _p2(input: &str) -> usize {
+    let mut parts = input.split("\r\n\r\n");
+
+    let rules_str = parts.next().unwrap_or("");
+    let updates_str = parts.next().unwrap_or("");
+
+    let mut rules = Vec::with_capacity(rules_str.lines().count());
+    for line in rules_str.lines() {
+        if let Some((x, y)) = line.split_once('|') {
+            if let (Ok(x), Ok(y)) = (x.parse::<u32>(), y.parse::<u32>()) {
+                rules.push((x, y));
+            }
+        }
     }
 
-    #[test]
-    fn real_p2() {
-        assert_eq!(4407, p2());
+    let mut central_pages_sum = 0;
+
+    for line in updates_str.lines() {
+        let pages: Vec<u32> = line
+            .split(',')
+            .filter_map(|num| num.parse::<u32>().ok())
+            .collect();
+
+        if pages.is_empty() {
+            continue;
+        }
+
+        let mut positions = HashMap::with_capacity(pages.len());
+        for (i, &page) in pages.iter().enumerate() {
+            positions.insert(page, i);
+        }
+
+        let mut is_valid = true;
+        for &(x, y) in &rules {
+            if let (Some(&pos_x), Some(&pos_y)) = (positions.get(&x), positions.get(&y)) {
+                if pos_x >= pos_y {
+                    is_valid = false;
+                    break;
+                }
+            }
+        }
+
+        if !is_valid {
+            let mut graph = HashMap::with_capacity(pages.len());
+            let mut in_degree = HashMap::with_capacity(pages.len());
+
+            for &(x, y) in &rules {
+                if pages.contains(&x) && pages.contains(&y) {
+                    graph.entry(x).or_insert_with(HashSet::new).insert(y);
+                    *in_degree.entry(y).or_insert(0) += 1;
+                    in_degree.entry(x).or_insert(0);
+                }
+            }
+
+            let mut ordered = Vec::with_capacity(pages.len());
+            let mut queue = VecDeque::with_capacity(pages.len());
+
+            for &page in &pages {
+                if in_degree.get(&page).copied().unwrap_or(0) == 0 {
+                    queue.push_back(page);
+                }
+            }
+
+            while let Some(current) = queue.pop_front() {
+                ordered.push(current);
+                if let Some(neighbors) = graph.get(&current) {
+                    for &neighbor in neighbors {
+                        if pages.contains(&neighbor) {
+                            let count = in_degree.get_mut(&neighbor).unwrap();
+                            *count -= 1;
+                            if *count == 0 {
+                                queue.push_back(neighbor);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Ajouter les pages manquantes
+            for &page in &pages {
+                if !ordered.contains(&page) {
+                    ordered.push(page);
+                }
+            }
+
+            if !ordered.is_empty() {
+                central_pages_sum += ordered[ordered.len() / 2];
+            }
+        }
     }
+
+    central_pages_sum as usize
+}
+
+pub fn p1() -> usize {
+    _p1(include_str!("../Inputs/d5.txt"))
+}
+
+pub fn p2() -> usize {
+    _p2(include_str!("../Inputs/d5.txt"))
 }

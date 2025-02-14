@@ -113,9 +113,9 @@ fn _p2(_input: &str) -> u64 {
 }
 
 pub fn p1() -> u64 {
-    _p1(include_str!("../Inputs/InputD1.txt"))
+    _p1(include_str!("../Inputs/d1.txt"))
 }
 
 pub fn p2() -> u64 {
-    _p2(include_str!("../Inputs/InputD1.txt"))
+    _p2(include_str!("../Inputs/d1.txt"))
 }

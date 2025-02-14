@@ -148,7 +148,6 @@ pub fn p2() -> u64 {
 */
 
 
-//Environ 105ms
 fn _p1(_input: &str) -> u64 {
     let mut safe_count = 0;
 
@@ -196,60 +195,36 @@ fn _p2(_input: &str) -> u64 {
             .filter_map(|value| value.parse::<i32>().ok())
             .collect();
 
-        let mut is_increasing = true;
-        let mut is_decreasing = true;
-        let mut valid_differences = true;
+        let is_valid = |report: &[i32]| -> bool {
+            let mut is_increasing = true;
+            let mut is_decreasing = true;
 
-        // Première passe pour vérifier si le rapport est valide
-        for i in 0..report.len() - 1 {
-            let diff = (report[i + 1] - report[i]).abs();
+            for i in 0..report.len() - 1 {
+                let diff = (report[i + 1] - report[i]).abs();
 
-            if diff < 1 || diff > 3 {
-                valid_differences = false;
-                break;
+                if diff < 1 || diff > 3 {
+                    return false;
+                }
+
+                if report[i + 1] > report[i] {
+                    is_decreasing = false;
+                } else if report[i + 1] < report[i] {
+                    is_increasing = false;
+                }
             }
+            is_increasing || is_decreasing
+        };
 
-            if report[i + 1] > report[i] {
-                is_decreasing = false;
-            } else if report[i + 1] < report[i] {
-                is_increasing = false;
-            }
-        }
-
-        if valid_differences && (is_increasing || is_decreasing) {
+        if is_valid(&report) {
             safe_count += 1;
         } else {
-            // Deuxième passe : on vérifie si un élément peut être retiré pour rendre la ligne valide
             let mut safe_after_removal = false;
 
             for i in 0..report.len() {
-                let mut is_increasing = true;
-                let mut is_decreasing = true;
-                let mut valid_differences = true;
+                let mut modified_report = report.clone();
+                modified_report.remove(i);
 
-                // Vérification du rapport sans l'élément à l'index i
-                for j in 0..report.len() - 1 {
-                    if j == i {
-                        continue; // On saute l'élément supprimé
-                    }
-
-                    let current = if j < i { report[j] } else { report[j + 1] };
-                    let next = if j < i { report[j + 1] } else { report[j] };
-                    let diff = (next - current).abs();
-
-                    if diff < 1 || diff > 3 {
-                        valid_differences = false;
-                        break;
-                    }
-
-                    if next > current {
-                        is_decreasing = false;
-                    } else if next < current {
-                        is_increasing = false;
-                    }
-                }
-
-                if valid_differences && (is_increasing || is_decreasing) {
+                if is_valid(&modified_report) {
                     safe_after_removal = true;
                     break;
                 }
@@ -261,16 +236,14 @@ fn _p2(_input: &str) -> u64 {
         }
     }
 
-    println!("Número total de reportes 'safe': {}", safe_count);
+    println!("Numero total: {}", safe_count);
     safe_count
 }
 
-
-
 pub fn p1() -> u64 {
-    _p1(include_str!("../Inputs/InputD2.txt"))
+    _p1(include_str!("../Inputs/d2.txt"))
 }
 
 pub fn p2() -> u64 {
-    _p2(include_str!("../Inputs/InputD2.txt"))
+    _p2(include_str!("../Inputs/d2.txt"))
 }
