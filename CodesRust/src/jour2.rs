@@ -147,7 +147,13 @@ pub fn p2() -> u64 {
 }
 */
 
+/*
 
+ - Filter_map pour filtrer données en entrés
+ - Utilisation de Unwrap.
+
+
+ */
 fn _p1(_input: &str) -> u64 {
     let mut safe_count = 0;
 

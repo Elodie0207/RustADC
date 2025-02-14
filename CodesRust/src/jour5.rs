@@ -135,7 +135,7 @@ fn _p2(_input: &str) -> usize {
         if !es_valida {
             println!("Actualización incorrecta encontrada: {:?}", actualizacion);
 
-            // Reordenar la actualización respetando las reglas
+
             let mut grafo: HashMap<u32, HashSet<u32>> = HashMap::new();
             let mut in_degree: HashMap<u32, usize> = HashMap::new();
 
@@ -170,7 +170,7 @@ fn _p2(_input: &str) -> usize {
                 }
             }
 
-            // Agregar cualquier página que falte
+
             for &pagina in &actualizacion {
                 if !ordenado.contains(&pagina) {
                     ordenado.push(pagina);
@@ -202,6 +202,18 @@ pub fn p2() -> usize {
 }
 */
 
+
+
+
+
+
+/*
+- Réductions de la création de structures temporaires (on utilise split_once à la place de faire plusieurs manipulations)
+- On initialise les vectures avec une capacité initiale estimée pour l'allocation de la mémoire
+- On réduit le nombre de traverses de données en utilisant les HashMaps correctement.
+- On réduit les étapes de validation
+- Utilisations de références
+ */
 fn _p1(input: &str) -> usize {
     // Utiliser des références plutôt que de créer de nouveaux vecteurs
     let mut parts = input.split("\r\n\r\n");

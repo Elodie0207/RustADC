@@ -70,8 +70,13 @@ pub fn p2() -> u64 {
 }
  */
 
+/*
 
-
+- On utilise des listes de tris plus rapides ( unstable )
+- fold(0u64, |acc, (a, b)| acc + (a - b).unsigned_abs() as u64)
+- Utilisation de HasMap
+- Utilise unzip (séparer paire)
+ */
 // environ 104ms
 fn _p1(_input: &str) -> u64 {
     let mut col1: Vec<i32> = Vec::new();
